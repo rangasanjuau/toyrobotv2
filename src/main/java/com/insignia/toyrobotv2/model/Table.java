@@ -1,16 +1,10 @@
 package com.insignia.toyrobotv2.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.insignia.toyrobotv2.commands.Place;
 import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.validation.CommandValidator;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -41,9 +35,6 @@ public class Table implements CommandValidator {
     private int activeRobotId;
 
 
-
-
-
     public boolean isNotOccupied(Position newPosition) {
         return robots.stream().anyMatch(e -> e.getPosition().getX() == newPosition.getX() && e.getPosition().getY() == newPosition.getY());
     }
@@ -62,10 +53,10 @@ public class Table implements CommandValidator {
                 .filter(r -> (r.getId() == id))
                 .findFirst();
 
-        if(optionalToyRobot.isEmpty())
-            throw new GameException("Robot "+ id + " NOT FOUND");
+        if (optionalToyRobot.isEmpty())
+            throw new GameException("Robot " + id + " NOT FOUND");
 
-            return optionalToyRobot.get();
+        return optionalToyRobot.get();
 
     }
 

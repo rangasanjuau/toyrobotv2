@@ -1,7 +1,6 @@
 package com.insignia.toyrobotv2.model;
 
 
-import com.insignia.toyrobotv2.commands.Right;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +13,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 
-public class DirectionTest {
+class DirectionTest {
 
     @Mock
     private Table table;
@@ -42,9 +41,9 @@ public class DirectionTest {
 
 
     @Test
-    public void testGetNextDirectionNorthRight() {
+    void testGetNextDirectionNorthRight() {
         // Setup
-        Direction direction = Direction.builder().direction("NORTH").build();
+        Direction direction = Direction.builder().robotDirection("NORTH").build();
 
         when(table.getDirectionMap()).thenReturn(map);
         when(table.getRotation()).thenReturn(rotation);
@@ -53,13 +52,13 @@ public class DirectionTest {
         Direction nextDirection = direction.getNextDirection(table, "RIGHT");
 
         // Verify
-        assertEquals("EAST", nextDirection.getDirection());
+        assertEquals("EAST", nextDirection.getRobotDirection());
     }
 
     @Test
-    public void testGetNextDirectionSouthLeft() {
+    void testGetNextDirectionSouthLeft() {
         // Setup
-        Direction direction = Direction.builder().direction("SOUTH").build();
+        Direction direction = Direction.builder().robotDirection("SOUTH").build();
 
         when(table.getDirectionMap()).thenReturn(map);
         when(table.getRotation()).thenReturn(rotation);
@@ -68,7 +67,7 @@ public class DirectionTest {
         Direction nextDirection = direction.getNextDirection(table, "LEFT");
 
         // Verify
-        assertEquals("EAST", nextDirection.getDirection());
+        assertEquals("EAST", nextDirection.getRobotDirection());
     }
 
 }

@@ -1,18 +1,13 @@
 package com.insignia.toyrobotv2.commands;
 
 
-import com.insignia.toyrobotv2.Toyrobotv2Application;
 import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
 import com.insignia.toyrobotv2.validation.OrderValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Report extends Command implements OrderValidator {
-
-    private final static Logger logger = LoggerFactory.getLogger(Report.class);
 
     public Report(String[] commandTokens) {
         super(commandTokens);
@@ -26,16 +21,16 @@ public class Report extends Command implements OrderValidator {
 
         // Print the table status
 
-        res += "\nTABLE (" + table.getTableLength()+ " X " + table.getTableBreadth() + ") \n";
+        res += "\nTABLE (" + table.getTableLength() + " X " + table.getTableBreadth() + ") \n";
         res += "------------------------\n";
 
         for (Robot robot : table.getRobots()) {
             res += "Robot " + robot.getId() + ": " + robot.getPosition().getX() + " " + robot.getPosition().getY()
-                    + " " + robot.getPosition().getDirection().getDirection() +  " ";
+                    + " " + robot.getPosition().getDirection().getRobotDirection() + " ";
             if (robot.getId() == table.getActiveRobotId())
                 res += " *";
 
-            res+="\n";
+            res += "\n";
         }
 
         System.out.println(res + "\n");

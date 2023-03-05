@@ -1,13 +1,12 @@
 package com.insignia.toyrobotv2.commands;
 
 
+import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Direction;
 import com.insignia.toyrobotv2.model.Position;
-import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
-import com.insignia.toyrobotv2.util.ToyUtil;
 import com.insignia.toyrobotv2.validation.ArgumentValidator;
 import com.insignia.toyrobotv2.validation.DirectionValidator;
 import com.insignia.toyrobotv2.validation.PositionValidator;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Place extends Command implements ArgumentValidator, PositionValidator, DirectionValidator {
 
-    private final static Logger logger = LoggerFactory.getLogger(Place.class);
+    private static final Logger logger = LoggerFactory.getLogger(Place.class);
 
     public Place(String[] commandTokens) {
         super(commandTokens);
@@ -37,7 +36,7 @@ public class Place extends Command implements ArgumentValidator, PositionValidat
 
         // Check if direction is valid
         validateDirection(table, commandTokens[3]);
-        Direction direction = Direction.builder().direction(commandTokens[3]).build();
+        Direction direction = Direction.builder().robotDirection(commandTokens[3]).build();
 
         int x = Integer.parseInt(commandTokens[1]);
         int y = Integer.parseInt(commandTokens[2]);
@@ -60,9 +59,8 @@ public class Place extends Command implements ArgumentValidator, PositionValidat
     }
 
 
-    public int getNextAvailableId(Table table)
-    {
-        int maxId =  table.getRobots()
+    public int getNextAvailableId(Table table) {
+        int maxId = table.getRobots()
                 .stream().mapToInt(Robot::getId).max().orElse(0);
         return maxId + 1;
     }

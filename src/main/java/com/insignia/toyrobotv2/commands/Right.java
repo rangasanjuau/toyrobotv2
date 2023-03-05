@@ -1,8 +1,7 @@
 package com.insignia.toyrobotv2.commands;
 
-import com.insignia.toyrobotv2.model.Direction;
-import com.insignia.toyrobotv2.model.Position;
 import com.insignia.toyrobotv2.exception.GameException;
+import com.insignia.toyrobotv2.model.Direction;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
@@ -21,7 +20,7 @@ public class Right extends Command implements OrderValidator {
         Robot robot = table.getRobotById(table.getActiveRobotId());
         Direction currentDirection = robot.getPosition().getDirection();
 
-        robot.getPosition().setDirection(currentDirection.getNextDirection(table,"RIGHT"));
+        robot.getPosition().setDirection(currentDirection.getNextDirection(table, "RIGHT"));
 
         return ResponceDto.builder().robot(robot).build();
     }

@@ -29,7 +29,7 @@ public class Position {
         int ny = y;
 
         // Get the position change for the given direction
-        List<Integer> positionChange = table.getDirectionMap().get(direction.getDirection());
+        List<Integer> positionChange = table.getDirectionMap().get(direction.getRobotDirection());
 
         // Update the position
         nx += positionChange.get(0);

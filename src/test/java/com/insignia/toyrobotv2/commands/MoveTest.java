@@ -9,7 +9,6 @@ import com.insignia.toyrobotv2.response.ResponceDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -37,7 +36,7 @@ class MoveTest {
     @DisplayName("Test execute method with valid input")
     void testExecuteValidInput() throws GameException {
         // Mock the table's getRobotById method to return a robot with the given ID
-        Direction direction = Direction.builder().direction("NORTH").build();
+        Direction direction = Direction.builder().robotDirection("NORTH").build();
         Robot robot = Robot.builder().id(1).position(position).build();
         when(table.getRobotById(anyInt())).thenReturn(robot);
 
@@ -61,7 +60,7 @@ class MoveTest {
     @DisplayName("Test execute method with invalid position")
     void testExecuteInvalidPosition() throws GameException {
         // Mock the table's getRobotById method to return a robot with the given ID
-        Direction direction = Direction.builder().direction("NORTH").build();
+        Direction direction = Direction.builder().robotDirection("NORTH").build();
         Robot robot = Robot.builder().id(1).position(position).build();
         when(table.getRobotById(anyInt())).thenReturn(robot);
 

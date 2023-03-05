@@ -5,10 +5,10 @@ import com.insignia.toyrobotv2.model.Table;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ArgumentValidatorTest {
+class ArgumentValidatorTest {
 
     @Test
-    public void testValidateArgumentsNotEnoughArguments() {
+    void testValidateArgumentsNotEnoughArguments() {
         // Setup
         Table table = new Table();
         String[] commandTokens = new String[]{"PLACE", "2", "3"};
@@ -20,7 +20,7 @@ public class ArgumentValidatorTest {
     }
 
     @Test
-    public void testValidateArgumentsInvalidCoordinates() {
+    void testValidateArgumentsInvalidCoordinates() {
         // Setup
         Table table = new Table();
         String[] commandTokens = new String[]{"PLACE", "2", "A", "NORTH"};
@@ -32,7 +32,7 @@ public class ArgumentValidatorTest {
     }
 
     @Test
-    public void testValidateArgumentsValidArguments() throws GameException {
+    void testValidateArgumentsValidArguments() throws GameException {
         // Setup
         Table table = new Table();
         String[] commandTokens = new String[]{"PLACE", "2", "3", "NORTH"};

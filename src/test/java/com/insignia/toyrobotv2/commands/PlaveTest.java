@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -45,7 +43,7 @@ class PlaceTest {
     @DisplayName("Test execute method with valid input")
     void testExecuteValidInput() throws GameException {
 
-        Direction direction = Direction.builder().direction("NORTH").build();
+        Direction direction = Direction.builder().robotDirection("NORTH").build();
         Position position = Position.builder().x(0).y(0).direction(direction).build();
         Robot robot = Robot.builder().id(1).position(position).build();
         when(table.getRobotById(anyInt())).thenReturn(robot);

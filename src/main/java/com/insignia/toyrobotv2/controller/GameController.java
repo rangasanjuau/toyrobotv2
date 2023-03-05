@@ -16,7 +16,7 @@ import java.util.Scanner;
 @Component
 public class GameController {
 
-    private final static Logger logger = LoggerFactory.getLogger(Toyrobotv2Application.class);
+    private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
     @Autowired
     private Table table;
@@ -36,7 +36,7 @@ public class GameController {
 
                 try {
                     // Check if a command was entered
-                    if (commandTokens.length < 0)
+                    if (commandTokens.length == 0)
                         throw new GameException("Missing Command");
 
                     // Check if command is valid
@@ -47,9 +47,8 @@ public class GameController {
                     Command command = ToyUtil.getCommandInstance(className, commandTokens);
 
                     // Execute the corrosponding commands execute
-                    ResponceDto responce = command.execute(table);
+                    command.execute(table);
 
-                    //logger.info(responce.toString());
                 } catch (GameException ex) {
                     logger.info("EXCEPTION : " + ex.getMessage());
                 }

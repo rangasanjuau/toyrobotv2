@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class DirectionValidatorTest {
+class DirectionValidatorTest {
 
 
     @Mock
@@ -37,7 +37,7 @@ public class DirectionValidatorTest {
 
 
     @Test
-    public void testValidateDirectionValidDirection() throws GameException {
+    void testValidateDirectionValidDirection() throws GameException {
         // Setup
         String direction = "NORTH";
         DirectionValidator directionValidator = new DirectionValidator() {};
@@ -49,7 +49,7 @@ public class DirectionValidatorTest {
     }
 
     @Test
-    public void testValidateDirectionInvalidDirection() {
+    void testValidateDirectionInvalidDirection() {
         // Setup
         String direction = "NORTHWEST";
         DirectionValidator directionValidator = new DirectionValidator() {};

@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-public class CommandValidatorTest {
+class CommandValidatorTest {
 
     @Mock
     private Table table;
@@ -37,7 +37,7 @@ public class CommandValidatorTest {
 
 
     @Test
-    public void testValidateCommandValidCommand() throws GameException {
+    void testValidateCommandValidCommand() throws GameException {
         // Setup
         String command = "MOVE";
         CommandValidator commandValidator = new CommandValidator() {};
@@ -49,7 +49,7 @@ public class CommandValidatorTest {
     }
 
     @Test
-    public void testValidateCommandInvalidCommand() {
+    void testValidateCommandInvalidCommand() {
         // Setup
         String command = "JUMP";
         CommandValidator commandValidator = new CommandValidator() {};

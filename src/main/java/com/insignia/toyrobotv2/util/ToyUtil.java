@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ToyUtil {
 
-    private final static String COMMAND_PACKAGE = "com.insignia.toyrobotv2.commands";
+    private static final String COMMAND_PACKAGE = "com.insignia.toyrobotv2.commands";
 
     public static boolean isNAN(String num) {
         try {

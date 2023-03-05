@@ -7,9 +7,7 @@ import lombok.Data;
 @Builder
 public class Direction {
 
-    private String direction;
-
-
+    private String robotDirection;
 
     public Direction getNextDirection(Table table, String to) {
 
@@ -18,7 +16,7 @@ public class Direction {
         int currentDirectionIndex = 0;
 
         for (int i = 0; i < directions.length; i++) {
-            if (directions[i].equals(direction)) {
+            if (directions[i].equals(robotDirection)) {
                 currentDirectionIndex = i;
                 break;
             }
@@ -30,7 +28,7 @@ public class Direction {
         newDirectionIndex = newDirectionIndex % directions.length;
 
         // Get the new direction
-        return Direction.builder().direction(directions[newDirectionIndex]).build();
+        return Direction.builder().robotDirection(directions[newDirectionIndex]).build();
     }
 
 }
