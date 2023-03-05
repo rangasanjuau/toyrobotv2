@@ -8,7 +8,7 @@ public interface ArgumentValidator {
     default void validateArguments(Table table, String[] commandTokens) throws GameException
     {
 
-        if (commandTokens.length != 4)
+        if (commandTokens.length < 4)
             throw new GameException("Not enough Arguments { Usage : PLACE X Y DIRECTION , Example : PLACE 2 3 NORTH }");
 
 

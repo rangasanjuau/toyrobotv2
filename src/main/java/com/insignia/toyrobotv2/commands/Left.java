@@ -8,6 +8,8 @@ import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
 import com.insignia.toyrobotv2.validation.OrderValidator;
 
+import java.util.Optional;
+
 public class Left extends Command implements OrderValidator {
 
 

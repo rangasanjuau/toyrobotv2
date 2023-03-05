@@ -69,12 +69,14 @@ public class Toyrobotv2Application implements CommandLineRunner {
 					// Check if command is valid
 					table.validateCommand(commandTokens[0]);
 
+					// Get the appropriate command class
 					String className = commandTokens[0].toLowerCase().substring(0, 1).toUpperCase() + commandTokens[0].substring(1).toLowerCase();
 					Command command = ToyUtil.getCommandInstance(className, commandTokens);
 
-
+					// Execute the corrosponding commands execute
 					ResponceDto responce = command.execute(table);
-					logger.info(responce.toString());
+
+					//logger.info(responce.toString());
 				} catch (GameException ex) {
 					logger.info("EXCEPTION : " + ex.getMessage());
 				}
