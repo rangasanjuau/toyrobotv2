@@ -8,6 +8,7 @@ import com.insignia.toyrobotv2.Position;
 import com.insignia.toyrobotv2.commands.Place;
 import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.serialize.NameSerializer;
+import com.insignia.toyrobotv2.validation.CommandValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ import java.util.Set;
 @Builder
 @Component
 
-public class Table {
+public class Table implements CommandValidator {
 
     // private static variable to hold the singleton instance
     private static volatile Table instance;

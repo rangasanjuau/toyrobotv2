@@ -6,8 +6,9 @@ import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
+import com.insignia.toyrobotv2.validation.OrderValidator;
 
-public class Move extends Command {
+public class Move extends Command implements OrderValidator {
 
     public Move(String[] commandTokens) {
         super(commandTokens);
@@ -15,7 +16,7 @@ public class Move extends Command {
 
 
     public ResponceDto execute(Table table) throws GameException {
-
+        validateOrder(table);
 
         Robot robot = table.getRobotById(table.getActiveRobotId());
         Position newPosition = robot.getPosition().getNextPosition();

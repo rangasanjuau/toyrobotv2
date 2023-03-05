@@ -5,6 +5,7 @@ import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
 import com.insignia.toyrobotv2.util.ConfigUtil;
+import com.insignia.toyrobotv2.util.ToyUtil;
 import com.insignia.toyrobotv2.validation.CommandValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.insignia.toyrobotv2.validation.CommandValidator.getCommandInstance;
 
 @SpringBootApplication
 public class Toyrobotv2Application implements CommandLineRunner {
@@ -67,10 +67,10 @@ public class Toyrobotv2Application implements CommandLineRunner {
 						throw new GameException("Missing Command");
 
 					// Check if command is valid
-					CommandValidator.validateCommand(commandTokens[0]);
+					table.validateCommand(commandTokens[0]);
 
 					String className = commandTokens[0].toLowerCase().substring(0, 1).toUpperCase() + commandTokens[0].substring(1).toLowerCase();
-					Command command = getCommandInstance(className, commandTokens);
+					Command command = ToyUtil.getCommandInstance(className, commandTokens);
 
 
 					ResponceDto responce = command.execute(table);

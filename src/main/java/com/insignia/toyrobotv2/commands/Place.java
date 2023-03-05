@@ -7,6 +7,7 @@ import com.insignia.toyrobotv2.model.Direction;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
+import com.insignia.toyrobotv2.util.ToyUtil;
 import com.insignia.toyrobotv2.validation.ArgumentValidator;
 import com.insignia.toyrobotv2.validation.CommandValidator;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class Place extends Command implements ArgumentValidator {
         int x = Integer.parseInt(commandTokens[1]);
         int y = Integer.parseInt(commandTokens[2]);
 
-        robot = Robot.builder().id(getNextAvailableId(table)).position(Position.builder().x(x).y(y).direction("NORTH").build()).build();
+        robot = Robot.builder().id(getNextAvailableId(table)).position(Position.builder().x(x).y(y).direction(commandTokens[3]).build()).build();
         robot.setPosition(robot.getPosition());
 
         // If first robot then set ACTIVE
@@ -45,7 +46,6 @@ public class Place extends Command implements ArgumentValidator {
         }
 
         table.getRobots().add(robot);
-
 
         return ResponceDto.builder().robot(robot).table(table).build();
     }
@@ -60,7 +60,7 @@ public class Place extends Command implements ArgumentValidator {
 
 
         // Check if (X,Y) coordinates are valid
-        if (CommandValidator.isNAN(commandTokens[1]) || CommandValidator.isNAN(commandTokens[2]))
+        if (ToyUtil.isNAN(commandTokens[1]) || ToyUtil.isNAN(commandTokens[2]))
             throw new GameException("Invalid Coordinates, Integer Expected { Usage : PLACE X Y DIRECTION , Example : PLACE 2 3 NORTH }");
 
 
@@ -73,8 +73,6 @@ public class Place extends Command implements ArgumentValidator {
 
         // Validate if the position is valid on table
         table.validateMove(position);
-
-
     }
 
     public int getNextAvailableId(Table table)
