@@ -1,21 +1,19 @@
 package com.insignia.toyrobotv2.validation;
 
-import com.insignia.toyrobotv2.commands.Command;
 import com.insignia.toyrobotv2.exception.GameException;
-import com.insignia.toyrobotv2.util.ConfigUtil;
+import com.insignia.toyrobotv2.model.Table;
+import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
+@Component
 public interface CommandValidator {
 
-
-    default void validateCommand(String command) throws GameException {
+    default void validateCommand(Table table, String command) throws GameException {
         // Check if command is valid
-        if (Objects.isNull(ConfigUtil.getCommands().get(command)))
+        if (Objects.isNull(table.getCommands().get(command)))
         {
-            throw new GameException("Invalid Command. Permiited commands are " + ConfigUtil.getCommands().keySet());
+            throw new GameException("Invalid Command. Permiited commands are " + table.getCommands().keySet());
         }
     }
 
