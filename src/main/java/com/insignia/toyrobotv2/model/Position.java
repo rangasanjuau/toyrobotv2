@@ -1,4 +1,4 @@
-package com.insignia.toyrobotv2;
+package com.insignia.toyrobotv2.model;
 
 import com.insignia.toyrobotv2.util.ConfigUtil;
 import lombok.Builder;

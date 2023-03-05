@@ -1,6 +1,6 @@
 package com.insignia.toyrobotv2.commands;
 
-import com.insignia.toyrobotv2.Position;
+import com.insignia.toyrobotv2.model.Position;
 import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;

@@ -4,9 +4,7 @@ package com.insignia.toyrobotv2.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.insignia.toyrobotv2.Position;
 import com.insignia.toyrobotv2.commands.Place;
-import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.serialize.NameSerializer;
 import com.insignia.toyrobotv2.validation.CommandValidator;
 import lombok.AllArgsConstructor;
@@ -16,7 +14,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -72,7 +69,7 @@ public class Table implements CommandValidator {
     }
 
 
-    public boolean detectCollision(Position newPosition) {
+    public boolean isNotOccupied(Position newPosition) {
         return robots.stream().anyMatch(e -> e.getPosition().equals(newPosition));
     }
 
@@ -81,15 +78,6 @@ public class Table implements CommandValidator {
         int x = newPosition.getX();
         int y = newPosition.getY();
         return x >= 0 && x < tableLength && y >= 0 && y < tableBreadth;
-    }
-
-    public void validateMove(Position newPosition) throws GameException {
-
-        if (!isOnTable(newPosition))
-            throw new GameException("Edge detected : Coordinates out of table dimension");
-
-        if (detectCollision(newPosition))
-            throw new GameException("Collision Detected");
     }
 
     public Robot getRobotById(int id) {

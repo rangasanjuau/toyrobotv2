@@ -1,15 +1,15 @@
 package com.insignia.toyrobotv2.commands;
 
 
-import com.insignia.toyrobotv2.Position;
+import com.insignia.toyrobotv2.model.Position;
 import com.insignia.toyrobotv2.exception.GameException;
-import com.insignia.toyrobotv2.model.Direction;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
 import com.insignia.toyrobotv2.util.ToyUtil;
 import com.insignia.toyrobotv2.validation.ArgumentValidator;
-import com.insignia.toyrobotv2.validation.CommandValidator;
+import com.insignia.toyrobotv2.validation.DirectionValidator;
+import com.insignia.toyrobotv2.validation.PositionValidator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @Component
-public class Place extends Command implements ArgumentValidator {
+public class Place extends Command implements ArgumentValidator, PositionValidator, DirectionValidator {
 
     private final static Logger logger = LoggerFactory.getLogger(Place.class);
 
@@ -65,14 +65,14 @@ public class Place extends Command implements ArgumentValidator {
 
 
         // Check if direction is valid
-        Direction.validateDirection(commandTokens[3]);
+        validateDirection(commandTokens[3]);
 
         int x = Integer.parseInt(commandTokens[1]);
         int y = Integer.parseInt(commandTokens[2]);
         Position position = Position.builder().x(x).y(y).direction(commandTokens[3]).build();
 
         // Validate if the position is valid on table
-        table.validateMove(position);
+        validatePosition(table, position);
     }
 
     public int getNextAvailableId(Table table)
