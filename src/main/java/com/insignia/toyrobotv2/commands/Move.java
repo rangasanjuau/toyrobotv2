@@ -20,7 +20,7 @@ public class Move extends Command implements OrderValidator, PositionValidator {
         validateOrder(table);
 
         Robot robot = table.getRobotById(table.getActiveRobotId());
-        Position newPosition = robot.getPosition().getNextPosition();
+        Position newPosition = robot.getPosition().getNextPosition(table);
 
         validatePosition(table, newPosition);
         robot.setPosition(newPosition);

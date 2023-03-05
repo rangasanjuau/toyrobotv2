@@ -36,7 +36,7 @@ public class Place extends Command implements ArgumentValidator, PositionValidat
         validateArguments(table, commandTokens);
 
         // Check if direction is valid
-        validateDirection(commandTokens[3]);
+        validateDirection(table, commandTokens[3]);
         Direction direction = Direction.builder().direction(commandTokens[3]).build();
 
         int x = Integer.parseInt(commandTokens[1]);

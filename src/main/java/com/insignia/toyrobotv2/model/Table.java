@@ -11,60 +11,37 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Component
-
 public class Table implements CommandValidator {
 
-    // private static variable to hold the singleton instance
-    private static volatile Table instance;
-
-    @JsonIgnore
+    @Value("${table.length}")
     private int tableLength;
 
-    @JsonIgnore
+    @Value("${table.breadth}")
     private int tableBreadth;
 
-    private Set<Robot> robots = new HashSet<>();
+    @Value("#{${robot.rotation}}")
+    private LinkedHashMap<String, Integer> rotation;
 
-    @Autowired
-    private Place place;
+    @Value("#{${robot.commands}}")
+    private LinkedHashMap<String, Integer> commands;
+
+    @Value("#{${robot.directions}}")
+    private LinkedHashMap<String, List<Integer>> directionMap;
+
+    private Set<Robot> robots = new HashSet<>();
 
     @JsonProperty("activeRobotId")
     private int activeRobotId;
 
 
-    // private constructor to prevent instantiation from outside
-    private Table(int length, int breadth) {
-        this.tableLength = length;
-        this.tableBreadth = breadth;
-    }
 
-
-    // public static method to get the singleton instance
-
-    public static Table getInstance(int length, int breadth) {
-
-
-        if (instance == null) { // check if the instance is not already created
-            synchronized (Table.class) { // acquire lock on the class object
-                if (instance == null) { // double check for thread-safety
-                    instance = new Table(length, breadth) {
-                    }; // create the singleton instance
-                }
-            }
-        }
-        return instance; // return the singleton instance
-    }
 
 
     public boolean isNotOccupied(Position newPosition) {
@@ -80,7 +57,7 @@ public class Table implements CommandValidator {
 
     public Robot getRobotById(int id) throws GameException {
         // Get the Active Robot
-        Optional<Robot> optionalToyRobot = getRobots()
+        Optional<Robot> optionalToyRobot = robots
                 .stream()
                 .filter(r -> (r.getId() == id))
                 .findFirst();
