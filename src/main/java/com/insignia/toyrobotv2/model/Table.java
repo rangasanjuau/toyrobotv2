@@ -3,11 +3,9 @@ package com.insignia.toyrobotv2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.insignia.toyrobotv2.Position;
 import com.insignia.toyrobotv2.commands.Place;
 import com.insignia.toyrobotv2.exception.GameException;
-import com.insignia.toyrobotv2.serialize.NameSerializer;
+import com.insignia.toyrobotv2.validation.CommandValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +13,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,7 +23,7 @@ import java.util.Set;
 @Builder
 @Component
 
-public class Table {
+public class Table implements CommandValidator {
 
     // private static variable to hold the singleton instance
     private static volatile Table instance;
@@ -43,7 +40,6 @@ public class Table {
     private Place place;
 
     @JsonProperty("activeRobotId")
-    @JsonSerialize(using = NameSerializer.class)
     private int activeRobotId;
 
 
@@ -71,8 +67,8 @@ public class Table {
     }
 
 
-    public boolean detectCollision(Position newPosition) {
-        return robots.stream().anyMatch(e -> e.getPosition().equals(newPosition));
+    public boolean isNotOccupied(Position newPosition) {
+        return robots.stream().anyMatch(e -> e.getPosition().getX() == newPosition.getX() && e.getPosition().getY() == newPosition.getY());
     }
 
 
@@ -82,39 +78,19 @@ public class Table {
         return x >= 0 && x < tableLength && y >= 0 && y < tableBreadth;
     }
 
-    public void validateMove(Position newPosition) throws GameException {
-
-        if (!isOnTable(newPosition))
-            throw new GameException("Edge detected : Coordinates out of table dimension");
-
-        if (detectCollision(newPosition))
-            throw new GameException("Collision Detected");
-    }
-
-    public Robot getRobotById(int id) {
+    public Robot getRobotById(int id) throws GameException {
         // Get the Active Robot
         Optional<Robot> optionalToyRobot = getRobots()
                 .stream()
                 .filter(r -> (r.getId() == id))
                 .findFirst();
 
-        return optionalToyRobot.get();
+        if(optionalToyRobot.isEmpty())
+            throw new GameException("Robot "+ id + " NOT FOUND");
+
+            return optionalToyRobot.get();
+
     }
 
 
-    @Override
-    public String toString() {
-
-        String res = "\n";
-
-
-        for (Robot robot : robots) {
-            res += robot.toString();
-            if (robot.getId() == activeRobotId)
-                res += " *";
-
-            res += "\n";
-        }
-        return res;
-    }
 }

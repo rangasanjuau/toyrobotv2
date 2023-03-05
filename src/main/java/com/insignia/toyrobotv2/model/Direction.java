@@ -1,17 +1,37 @@
 package com.insignia.toyrobotv2.model;
 
-
-import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.util.ConfigUtil;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.Objects;
-
+@Data
+@Builder
 public class Direction {
-    String direction;
-    public static void validateDirection(String direction) throws GameException {
-        // Check if direction is valid
-        if (Objects.isNull(ConfigUtil.getDirectionMap().get(direction)))
-            throw new GameException("Invalid Direction : Pernmitted values are " + ConfigUtil.getDirectionMap().keySet());
+
+    private String direction;
+
+
+
+    public Direction getNextDirection(String to) {
+
+        // Get the current direction and its index
+        String[] directions = ConfigUtil.getDirectionMap().keySet().toArray(new String[0]);
+        int currentDirectionIndex = 0;
+
+        for (int i = 0; i < directions.length; i++) {
+            if (directions[i].equals(direction)) {
+                currentDirectionIndex = i;
+                break;
+            }
+        }
+
+        // Calculate the new direction index
+        int newDirectionIndex = (currentDirectionIndex + ConfigUtil.getRotation().get(to));
+        newDirectionIndex = newDirectionIndex < 0 ? newDirectionIndex + directions.length : newDirectionIndex;
+        newDirectionIndex = newDirectionIndex % directions.length;
+
+        // Get the new direction
+        return Direction.builder().direction(directions[newDirectionIndex]).build();
     }
 
 }
