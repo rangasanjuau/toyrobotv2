@@ -25,7 +25,7 @@ public class Left extends Command implements OrderValidator {
         Robot robot = table.getRobotById(table.getActiveRobotId());
         Direction currentDirection = robot.getPosition().getDirection();
 
-        robot.getPosition().setDirection(currentDirection.getNextDirection("LEFT"));
+        robot.getPosition().setDirection(currentDirection.getNextDirection(table,"LEFT"));
 
         return ResponceDto.builder().robot(robot).build();
     }

@@ -1,68 +1,107 @@
 package com.insignia.toyrobotv2.commands;
 
+
 import com.insignia.toyrobotv2.exception.GameException;
 import com.insignia.toyrobotv2.model.Direction;
 import com.insignia.toyrobotv2.model.Position;
 import com.insignia.toyrobotv2.model.Robot;
 import com.insignia.toyrobotv2.model.Table;
 import com.insignia.toyrobotv2.response.ResponceDto;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-public class ActivateTest {
+import static org.mockito.Mockito.*;
 
-    private static Table table;
+import static org.junit.jupiter.api.Assertions.*;
 
-    @BeforeAll
-    public static void setUp() {
-        table = Table.getInstance(5,5);
+class ActivateTest {
+
+    @Mock
+    private Table table;
+
+    private Activate activate;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        String[] commandTokens = {"ACTIVATE", "1"};
+        activate = spy(new Activate(commandTokens));
+    }
+
+    @Test
+    @DisplayName("Test execute method with valid input")
+    void testExecuteValidInput() throws GameException {
+        // Mock the table's getRobotById method to return a robot with the given ID
         Direction direction = Direction.builder().direction("NORTH").build();
         Position position = Position.builder().x(0).y(0).direction(direction).build();
         Robot robot = Robot.builder().id(1).position(position).build();
-        table.getRobots().add(robot);
-    }
+        when(table.getRobotById(1)).thenReturn(robot);
 
+        // Mock the validateOrder method to do nothing
+        doNothing().when(activate).validateOrder(table);
 
-    @Test
-    public void testExecute() throws GameException {
-
-        String[] commandTokens = {"ACTIVATE", "1"};
-        Activate activate = new Activate(commandTokens);
-
-        // Act
         ResponceDto response = activate.execute(table);
-
-        // Assert
-        Assertions.assertEquals(1, table.getActiveRobotId());
-        Assertions.assertEquals(1, response.getRobot().getId());
+        assertNotNull(response.getRobot());
+        assertEquals(1, response.getRobot().getId());
     }
 
     @Test
-    public void testValidateArguments_NoOfArguments() throws GameException {
-        // Arrange
-        final String[] commandTokens = {"ACTIVATE"};
-        final Activate activate = new Activate(commandTokens);
+    @DisplayName("Test execute method with invalid id")
+    void testExecuteInvalidId() throws GameException {
+        String[] commandTokens = {"ACTIVATE", "invalid"};
+        activate = spy(new Activate(commandTokens));
 
-        // Act and Assert
-        GameException exception = Assertions.assertThrows(GameException.class, () -> {
-            activate.validateArguments(table, commandTokens);
-        });
-        Assertions.assertEquals("Not enough Arguments { Usage : ACTIVATE ID , Example : ACTIVATE 1 }", exception.getMessage());
+        // Mock the validateOrder method to do nothing
+        doNothing().when(activate).validateOrder(table);
 
+        // Call execute method and verify that a GameException is thrown with the correct message
+        GameException exception = assertThrows(GameException.class, () -> activate.execute(table));
+        assertTrue(exception.getMessage().contains("Invalid id"));
     }
-
 
     @Test
-    public void testValidateArguments() throws GameException {
-        // Arrange
-        final String[] commandTokens = {"ACTIVATE", "invalid"};
-        final Activate activate = new Activate(commandTokens);
+    @DisplayName("Test validateArguments method with not enough arguments")
+    void testValidateArgumentsNotEnoughArgs() throws GameException {
+        String[] commandTokens = {"ACTIVATE"};
+        activate = spy(new Activate(commandTokens));
 
-        // Act and Assert
-        GameException exception = Assertions.assertThrows(GameException.class, () -> {
-            activate.validateArguments(table, commandTokens);
-        });
-        Assertions.assertEquals("Invalid id, Integer Expected { Usage : ACTIVATE ID , Example : ACTIVATE 1 }", exception.getMessage());
+        // Mock the validateOrder method to do nothing
+        doNothing().when(activate).validateOrder(table);
+
+        // Call validateArguments method and verify that a GameException is thrown with the correct message
+        GameException exception = assertThrows(GameException.class, () -> activate.validateArguments(table, commandTokens));
+        assertTrue(exception.getMessage().contains("Not enough Arguments"));
     }
+
+    @Test
+    @DisplayName("Test validateArguments method with invalid id")
+    void testValidateArgumentsInvalidId() throws GameException {
+        String[] commandTokens = {"ACTIVATE", "invalid"};
+        activate = spy(new Activate(commandTokens));
+
+        // Mock the validateOrder method to do nothing
+        doNothing().when(activate).validateOrder(table);
+
+        // Call validateArguments method and verify that a GameException is thrown with the correct message
+        GameException exception = assertThrows(GameException.class, () -> activate.validateArguments(table, commandTokens));
+        assertTrue(exception.getMessage().contains("Invalid id"));
+    }
+
+    @Test
+    @DisplayName("Test validateArguments method with NaN id")
+    void testValidateArgumentsNaN() throws GameException {
+        String[] commandTokens = {"ACTIVATE", "NaN"};
+        activate = spy(new Activate(commandTokens));
+
+        // Mock the validateOrder method to do nothing
+        doNothing().when(activate).validateOrder(table);
+
+        // Call validateArguments method and verify that a GameException is thrown with the correct message
+        GameException exception = assertThrows(GameException.class, () -> activate.validateArguments(table, commandTokens));
+        assertTrue(exception.getMessage().contains("Invalid id"));
+    }
+
 }

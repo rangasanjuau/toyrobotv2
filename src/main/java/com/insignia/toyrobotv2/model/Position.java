@@ -1,14 +1,15 @@
 package com.insignia.toyrobotv2.model;
 
-import com.insignia.toyrobotv2.util.ConfigUtil;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @Data
 @Builder
+@NoArgsConstructor
 
 public class Position {
 
@@ -22,13 +23,13 @@ public class Position {
         this.direction = direction;
     }
 
-    public Position getNextPosition() {
+    public Position getNextPosition(Table table) {
 
         int nx = x;
         int ny = y;
 
         // Get the position change for the given direction
-        List<Integer> positionChange = ConfigUtil.getDirectionMap().get(direction.getDirection());
+        List<Integer> positionChange = table.getDirectionMap().get(direction.getDirection());
 
         // Update the position
         nx += positionChange.get(0);
