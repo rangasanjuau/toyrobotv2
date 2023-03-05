@@ -82,6 +82,15 @@ public class Table {
         return x >= 0 && x < tableLength && y >= 0 && y < tableBreadth;
     }
 
+    public void validateMove(Position newPosition) throws GameException {
+
+        if (!isOnTable(newPosition))
+            throw new GameException("Edge detected : Coordinates out of table dimension");
+
+        if (detectCollision(newPosition))
+            throw new GameException("Collision Detected");
+    }
+
     public Robot getRobotById(int id) {
         // Get the Active Robot
         Optional<Robot> optionalToyRobot = getRobots()
